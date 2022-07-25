@@ -12,6 +12,7 @@ const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rho
 const app = express();
 let posts = [];
 
+
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({
@@ -39,17 +40,24 @@ app.get("/compose", function(req, res) {
 });
 
 app.get("/posts/:postName", function(req,res) {
-  const requestedTitle = _.lowerCase(req.params.postName);
 
+  const requestedTitle = _.lowerCase(req.params.postName);
 
   posts.forEach(function(post){
    const storedTitle = _.lowerCase(post.title);
+
    if(storedTitle === requestedTitle) {
-     console.log("Match found!");
-   } else {
-     console.log("Not a match.");
-   }
-  });
+
+     res.render("post", {
+       postTitle: post.title,
+       postContent: post.content
+     });
+
+  }
+
+});
+
+
 });
 
 
